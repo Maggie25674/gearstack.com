@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GearStack — Your Setup. Upgraded.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --charcoal: #14151A;
+    --charcoal-2: #1D1F26;
+    --panel: #22242C;
+    --line: #33363F;
+    --white: #F2F3F5;
+    --dim: #9497A3;
+    --blue: #4C8DFF;
+    --signal: #FF7A3D;
+    --mono: 'JetBrains Mono', monospace;
+    --display: 'Space Grotesk', sans-serif;
+    --body: 'Inter', sans-serif;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--charcoal);
+    color:var(--white);
+    font-family:var(--body);
+    line-height:1.5;
+    overflow-x:hidden;
+  }
+  a{color:inherit; text-decoration:none;}
+  img{max-width:100%; display:block;}
+
+  ::selection{background:var(--signal); color:var(--charcoal);}
+
+  /* focus visibility */
+  a:focus-visible, button:focus-visible{
+    outline:2px solid var(--blue);
+    outline-offset:3px;
+  }
+
+  .wrap{max-width:1180px; margin:0 auto; padding:0 32px;}
+
+  /* NAV */
+  header{
+    position:sticky; top:0; z-index:50;
+    background:rgba(20,21,26,0.85);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--line);
+  }
+  nav{
+    display:flex; align-items:center; justify-content:space-between;
+    padding:20px 0;
+  }
+  .logo{
+    font-family:var(--display); font-weight:700; font-size:1.3rem;
+    letter-spacing:-0.02em; display:flex; align-items:center; gap:8px;
+  }
+  .logo .dot{width:8px; height:8px; background:var(--signal); border-radius:2px; display:inline-block;}
+  .navlinks{display:flex; gap:36px; font-size:0.92rem; color:var(--dim);}
+  .navlinks a:hover{color:var(--white);}
+  .nav-cta{
+    font-family:var(--mono); font-size:0.82rem; color:var(--charcoal);
+    background:var(--white); padding:9px 18px; border-radius:6px;
+    font-weight:500;
+  }
+  .nav-cta:hover{background:var(--signal); color:var(--charcoal);}
+  .mobile-hide{display:flex;}
+
+  /* HERO */
+  .hero{
+    padding:100px 0 60px;
+    position:relative;
+  }
+  .hero-grid{
+    display:grid; grid-template-columns:1.1fr 0.9fr; gap:60px; align-items:center;
+  }
+  .eyebrow{
+    font-family:var(--mono); font-size:0.78rem; color:var(--signal);
+    letter-spacing:0.08em; text-transform:uppercase;
+    display:flex; align-items:center; gap:10px; margin-bottom:22px;
+  }
+  .eyebrow::before{content:''; width:24px; height:1px; background:var(--signal);}
+  h1{
+    font-family:var(--display); font-size:clamp(2.6rem, 5vw, 4.2rem);
+    font-weight:700; letter-spacing:-0.03em; line-height:1.02;
+    margin-bottom:24px;
+  }
+  h1 em{font-style:normal; color:var(--blue);}
+  .hero p{
+    font-size:1.08rem; color:var(--dim); max-width:480px; margin-bottom:34px;
+  }
+  .btn-row{display:flex; gap:16px; align-items:center;}
+  .btn-primary{
+    background:var(--signal); color:var(--charcoal); font-weight:600;
+    padding:14px 28px; border-radius:8px; font-size:0.95rem;
+    display:inline-block; transition:transform 0.15s ease;
+  }
+  .btn-primary:hover{transform:translateY(-2px);}
+  .btn-secondary{
+    color:var(--white); font-family:var(--mono); font-size:0.85rem;
+    border-bottom:1px solid var(--line); padding-bottom:2px;
+  }
+  .btn-secondary:hover{border-color:var(--white);}
+
+  /* STACK VISUAL — signature element */
+  .stack-visual{
+    position:relative; height:440px;
+  }
+  .stack-card{
+    position:absolute; left:0; right:0;
+    background:var(--panel); border:1px solid var(--line);
+    border-radius:12px; padding:18px 22px;
+    display:flex; align-items:center; justify-content:space-between;
+    opacity:0; transform:translateY(24px);
+    animation:rise 0.6s ease forwards;
+    box-shadow:0 20px 40px -20px rgba(0,0,0,0.6);
+  }
+  .stack-card .label{font-family:var(--mono); font-size:0.78rem; color:var(--dim);}
+  .stack-card .name{font-family:var(--display); font-weight:600; font-size:1rem; margin-top:2px;}
+  .stack-card .idx{font-family:var(--mono); font-size:0.75rem; color:var(--blue);}
+  .stack-card:nth-child(1){top:0; z-index:5; animation-delay:0.1s;}
+  .stack-card:nth-child(2){top:105px; z-index:4; animation-delay:0.25s;}
+  .stack-card:nth-child(3){top:210px; z-index:3; animation-delay:0.4s;}
+  .stack-card:nth-child(4){top:315px; z-index:2; animation-delay:0.55s;}
+  @keyframes rise{to{opacity:1; transform:translateY(0);}}
+  @media (prefers-reduced-motion: reduce){
+    .stack-card{animation:none; opacity:1; transform:none;}
+  }
+
+  /* TRUST BAR */
+  .trust{
+    border-top:1px solid var(--line); border-bottom:1px solid var(--line);
+    padding:22px 0; background:var(--charcoal-2);
+  }
+  .trust .wrap{
+    display:flex; justify-content:space-between; flex-wrap:wrap; gap:18px;
+    font-family:var(--mono); font-size:0.82rem; color:var(--dim);
+  }
+  .trust span{color:var(--white);}
+
+  /* SECTION HEADERS */
+  .section{padding:90px 0;}
+  .section-head{
+    display:flex; justify-content:space-between; align-items:flex-end;
+    margin-bottom:46px; gap:20px; flex-wrap:wrap;
+  }
+  .section-head h2{
+    font-family:var(--display); font-size:clamp(1.8rem, 3vw, 2.4rem);
+    font-weight:600; letter-spacing:-0.02em;
+  }
+  .section-head p{color:var(--dim); max-width:380px; font-size:0.95rem;}
+  .tag{font-family:var(--mono); font-size:0.78rem; color:var(--blue);}
+
+  /* CATEGORY GRID */
+  .cat-grid{
+    display:grid; grid-template-columns:repeat(4, 1fr); gap:1px;
+    background:var(--line); border:1px solid var(--line); border-radius:14px; overflow:hidden;
+  }
+  .cat-card{
+    background:var(--charcoal); padding:32px 26px; min-height:220px;
+    display:flex; flex-direction:column; justify-content:space-between;
+    transition:background 0.25s ease;
+  }
+  .cat-card:hover{background:var(--panel);}
+  .cat-num{font-family:var(--mono); font-size:0.78rem; color:var(--dim);}
+  .cat-card h3{font-family:var(--display); font-size:1.25rem; font-weight:600; margin:14px 0 10px;}
+  .cat-card p{font-size:0.88rem; color:var(--dim);}
+  .cat-arrow{margin-top:18px; font-family:var(--mono); font-size:0.8rem; color:var(--signal);}
+
+  /* PRODUCT ROWS */
+  .product-list{display:flex; flex-direction:column;}
+  .product-row{
+    display:grid; grid-template-columns:64px 70px 1.4fr 1fr auto;
+    align-items:center; gap:24px; padding:22px 0;
+    border-bottom:1px solid var(--line);
+  }
+  .product-row:first-child{border-top:1px solid var(--line);}
+  .pimg{
+    width:64px; height:64px; border-radius:10px; background:var(--panel);
+    border:1px solid var(--line); display:flex; align-items:center; justify-content:center;
+  }
+  .pimg svg{width:32px; height:32px; stroke:var(--blue); fill:none; stroke-width:1.6;}
+  .product-row .pid{font-family:var(--mono); color:var(--dim); font-size:0.85rem;}
+  .product-row .pname{font-family:var(--display); font-weight:600; font-size:1.05rem;}
+  .product-row .pcat{font-family:var(--mono); font-size:0.78rem; color:var(--blue); margin-top:4px;}
+  .product-row .pspec{font-size:0.85rem; color:var(--dim);}
+  .product-row .pprice{font-family:var(--mono); font-size:0.95rem; text-align:right;}
+
+  /* ABOUT */
+  .about{
+    background:var(--charcoal-2); border-top:1px solid var(--line); border-bottom:1px solid var(--line);
+  }
+  .about-grid{display:grid; grid-template-columns:1fr 1fr; gap:60px; align-items:center;}
+  .about h2{font-family:var(--display); font-size:2rem; font-weight:600; margin-bottom:20px; letter-spacing:-0.02em;}
+  .about p{color:var(--dim); margin-bottom:16px; font-size:1rem;}
+  .stat-grid{display:grid; grid-template-columns:1fr 1fr; gap:24px;}
+  .stat{border-left:2px solid var(--signal); padding-left:16px;}
+  .stat .num{font-family:var(--display); font-size:2.2rem; font-weight:700;}
+  .stat .lbl{font-family:var(--mono); font-size:0.78rem; color:var(--dim); margin-top:4px;}
+
+  /* FOOTER */
+  footer{padding:60px 0 40px;}
+  .footer-grid{
+    display:grid; grid-template-columns:1.4fr 1fr 1fr 1fr; gap:40px;
+    padding-bottom:40px; border-bottom:1px solid var(--line); margin-bottom:24px;
+  }
+  .footer-grid h4{font-family:var(--mono); font-size:0.78rem; color:var(--dim); text-transform:uppercase; letter-spacing:0.06em; margin-bottom:16px;}
+  .footer-grid a, .footer-grid p{display:block; font-size:0.9rem; color:var(--dim); margin-bottom:10px;}
+  .footer-grid a:hover{color:var(--white);}
+  .footer-bottom{display:flex; justify-content:space-between; font-size:0.82rem; color:var(--dim); flex-wrap:wrap; gap:10px;}
+
+  /* WHATSAPP FLOAT */
+  .wa-float{
+    position:fixed; bottom:24px; right:24px; z-index:60;
+    background:#25D366; width:56px; height:56px; border-radius:50%;
+    display:flex; align-items:center; justify-content:center;
+    box-shadow:0 8px 24px rgba(0,0,0,0.4);
+    transition:transform 0.15s ease;
+  }
+  .wa-float:hover{transform:scale(1.08);}
+  .wa-float svg{width:28px; height:28px; fill:#fff;}
+
+  /* RESPONSIVE */
+  @media (max-width: 900px){
+    .hero-grid{grid-template-columns:1fr;}
+    .stack-visual{height:340px; margin-top:20px;}
+    .stack-card{padding:14px 18px;}
+    .stack-card:nth-child(2){top:82px;} .stack-card:nth-child(3){top:164px;} .stack-card:nth-child(4){top:246px;}
+    .cat-grid{grid-template-columns:1fr 1fr;}
+    .about-grid{grid-template-columns:1fr;}
+    .navlinks{display:none;}
+    .product-row{grid-template-columns:64px 1fr; text-align:left; gap:12px;}
+    .product-row .pid{display:none;}
+    .product-row .pprice{text-align:left; grid-column:2;}
+    .footer-grid{grid-template-columns:1fr 1fr;}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <nav>
+      <div class="logo"><span class="dot"></span>GearStack</div>
+      <div class="navlinks mobile-hide">
+        <a href="#shop">Shop</a>
+        <a href="#products">Bestsellers</a>
+        <a href="#about">About</a>
+        <a href="#contact">Contact</a>
+      </div>
+      <a href="#shop" class="nav-cta">Shop Now</a>
+    </nav>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <div class="eyebrow">Workstation gear, curated</div>
+      <h1>Your setup.<br><em>Upgraded.</em></h1>
+      <p>High-performance gear for traders, creators, and professionals who refuse to compromise — desks, displays, cameras, and everything between.</p>
+      <div class="btn-row">
+        <a href="#shop" class="btn-primary">Shop the stack</a>
+        <a href="#about" class="btn-secondary">Why GearStack →</a>
+      </div>
+    </div>
+    <div class="stack-visual" aria-hidden="true">
+      <div class="stack-card"><div><div class="label">Layer 04</div><div class="name">Content Creation</div></div><div class="idx">CAM / MIC</div></div>
+      <div class="stack-card"><div><div class="label">Layer 03</div><div class="name">Trading Displays</div></div><div class="idx">32" QHD</div></div>
+      <div class="stack-card"><div><div class="label">Layer 02</div><div class="name">Computing</div></div><div class="idx">KB / MOUSE</div></div>
+      <div class="stack-card"><div><div class="label">Layer 01</div><div class="name">Workstation Base</div></div><div class="idx">DESK / CHAIR</div></div>
+    </div>
+  </div>
+</section>
+
+<div class="trust">
+  <div class="wrap">
+    <div><span>Fast shipping</span> — 3–5 day delivery</div>
+    <div><span>Warranty included</span> — every product</div>
+    <div><span>Secure checkout</span> — encrypted end to end</div>
+    <div><span>Real support</span> — humans, not bots</div>
+  </div>
+</div>
+
+<section class="section" id="shop">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <div class="tag">// Shop by category</div>
+        <h2>Four categories. One workflow.</h2>
+      </div>
+      <p>Built around how you actually use your desk — not how a warehouse organizes its shelves.</p>
+    </div>
+    <div class="cat-grid">
+      <div class="cat-card">
+        <div class="cat-num">01</div>
+        <div>
+          <h3>Workstation Setup</h3>
+          <p>Ergonomic chairs & standing desks built for real workdays.</p>
+        </div>
+        <div class="cat-arrow">Shop chairs & desks →</div>
+      </div>
+      <div class="cat-card">
+        <div class="cat-num">02</div>
+        <div>
+          <h3>Trading Setup</h3>
+          <p>Multi-screen displays for traders who don't miss a move.</p>
+        </div>
+        <div class="cat-arrow">Shop monitors →</div>
+      </div>
+      <div class="cat-card">
+        <div class="cat-num">03</div>
+        <div>
+          <h3>Content Creation</h3>
+          <p>Cameras & podcast mics to sound and look professional.</p>
+        </div>
+        <div class="cat-arrow">Shop creator gear →</div>
+      </div>
+      <div class="cat-card">
+        <div class="cat-num">04</div>
+        <div>
+          <h3>Computing Essentials</h3>
+          <p>Laptops, keyboards, and mice that keep up with you.</p>
+        </div>
+        <div class="cat-arrow">Shop computing →</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="products">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <div class="tag">// Most wanted this month</div>
+        <h2>Bestsellers</h2>
+      </div>
+    </div>
+    <div class="product-list">
+      <div class="product-row">
+        <div class="pimg"><svg viewBox="0 0 24 24"><path d="M6 4h8v6H6z"/><path d="M6 10l-1.5 9M14 10l1.5 9M4.5 19h11"/><path d="M8 4V2.5h4V4"/></svg></div>
+        <div class="pid">01</div>
+        <div><div class="pname">ErgoFlex Pro Mesh Chair</div><div class="pcat">Workstation Setup</div></div>
+        <div class="pspec">Adjustable lumbar, 300lb capacity</div>
+        <div class="pprice">$180–280</div>
+      </div>
+      <div class="product-row">
+        <div class="pimg"><svg viewBox="0 0 24 24"><rect x="2" y="6" width="20" height="10" rx="1"/><path d="M7 20h10M12 16v4"/></svg></div>
+        <div class="pid">02</div>
+        <div><div class="pname">RiseDesk Electric Standing Desk</div><div class="pcat">Workstation Setup</div></div>
+        <div class="pspec">55" dual motor, memory presets</div>
+        <div class="pprice">$280–450</div>
+      </div>
+      <div class="product-row">
+        <div class="pimg"><svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="13" rx="1.2"/><path d="M8 20h8M12 16v4"/></svg></div>
+        <div class="pid">03</div>
+        <div><div class="pname">ProView 32" Curved QHD Monitor</div><div class="pcat">Trading Setup</div></div>
+        <div class="pspec">165Hz, VESA mount compatible</div>
+        <div class="pprice">$220–350</div>
+      </div>
+      <div class="product-row">
+        <div class="pimg"><svg viewBox="0 0 24 24"><rect x="8" y="2" width="8" height="14" rx="4"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3M9 21h6"/></svg></div>
+        <div class="pid">04</div>
+        <div><div class="pname">VoxCast USB/XLR Microphone</div><div class="pcat">Content Creation</div></div>
+        <div class="pspec">Dynamic cardioid, zero-latency monitor</div>
+        <div class="pprice">$70–130</div>
+      </div>
+      <div class="product-row">
+        <div class="pimg"><svg viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="10" rx="1.5"/><path d="M6 11v2M9.5 11v2M13 11v2M16.5 11v2"/></svg></div>
+        <div class="pid">05</div>
+        <div><div class="pname">KeyForge TKL Mechanical Keyboard</div><div class="pcat">Computing Essentials</div></div>
+        <div class="pspec">Hot-swap switches, PBT keycaps</div>
+        <div class="pprice">$60–100</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="about section" id="about">
+  <div class="wrap about-grid">
+    <div>
+      <div class="tag">// Why GearStack</div>
+      <h2>The right gear changes how you work.</h2>
+      <p>Whether you're trading from a triple-monitor desk, recording your next podcast episode, or just trying to sit through an 8-hour workday without back pain — we curate high-tech gear that actually makes a difference.</p>
+      <p>No clutter, no gimmicks. Just the setup you need, sourced and vetted by people who use it every day.</p>
+    </div>
+    <div class="stat-grid">
+      <div class="stat"><div class="num">4</div><div class="lbl">Product categories</div></div>
+      <div class="stat"><div class="num">3–5</div><div class="lbl">Day shipping window</div></div>
+      <div class="stat"><div class="num">100%</div><div class="lbl">Warranty covered</div></div>
+      <div class="stat"><div class="num">24/7</div><div class="lbl">Support access</div></div>
+    </div>
+  </div>
+</section>
+
+<footer id="contact">
+  <div class="wrap">
+    <div class="footer-grid">
+      <div>
+        <div class="logo" style="margin-bottom:14px;"><span class="dot"></span>GearStack</div>
+        <p style="max-width:260px;">Workstation gear for traders, creators, and professionals who refuse to compromise.</p>
+      </div>
+      <div>
+        <h4>Shop</h4>
+        <a href="#shop">Workstation Setup</a>
+        <a href="#shop">Trading Setup</a>
+        <a href="#shop">Content Creation</a>
+        <a href="#shop">Computing Essentials</a>
+      </div>
+      <div>
+        <h4>Company</h4>
+        <a href="#about">About</a>
+        <a href="#contact">Contact</a>
+        <a href="#">Shipping & Returns</a>
+        <a href="#">Privacy Policy</a>
+      </div>
+      <div>
+        <h4>Contact</h4>
+        <a href="https://wa.me/256756599464" target="_blank" rel="noopener">WhatsApp: +256 756 599464</a>
+        <p>Arena Mall</p>
+        <p>Mon–Fri, 9am–6pm</p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div>© 2026 GearStack. All rights reserved.</div>
+      <div>Built for the way you actually work.</div>
+    </div>
+  </div>
+</footer>
+
+<a href="https://wa.me/256756599464" target="_blank" rel="noopener" class="wa-float" aria-label="Chat on WhatsApp">
+  <svg viewBox="0 0 24 24"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.28-1.38a9.9 9.9 0 0 0 4.76 1.21h.01c5.46 0 9.9-4.45 9.9-9.91C21.96 6.45 17.5 2 12.04 2zm5.8 14.02c-.24.68-1.4 1.3-1.93 1.38-.5.08-1.13.11-1.82-.11-.42-.13-.96-.31-1.65-.6-2.9-1.25-4.79-4.16-4.93-4.35-.14-.19-1.18-1.57-1.18-3 0-1.42.75-2.12 1.02-2.41.27-.29.58-.36.78-.36.2 0 .39 0 .56.01.18.01.42-.07.65.5.24.58.82 2.01.89 2.16.07.14.12.31.02.5-.09.19-.14.3-.28.46-.14.16-.29.36-.42.48-.14.13-.28.27-.12.54.16.27.71 1.17 1.52 1.9 1.05.94 1.93 1.23 2.2 1.37.27.14.43.12.59-.07.16-.19.68-.79.86-1.06.18-.27.36-.22.6-.13.24.09 1.55.73 1.82.86.27.13.45.2.51.31.07.11.07.63-.17 1.31z"/></svg>
+</a>
+
+</body>
+</html>
